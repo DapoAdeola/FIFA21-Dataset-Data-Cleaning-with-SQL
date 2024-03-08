@@ -37,3 +37,5 @@ SELECT COUNT(*) AS Row_Count
 FROM [dbo].[fifa21 raw data v2];
 ```
 There are 18,979 rows in our dataset.
+
+## Data Cleaning Process
