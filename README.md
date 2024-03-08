@@ -39,7 +39,7 @@ FROM [dbo].[fifa21 raw data v2];
 There are 18,979 rows in our dataset.
 
 ## Data Cleaning Process
-### 1. Checking for duplicates
+### 1. Checking for duplicates.
 The initial step in the data cleaning process involves checking for duplicates in our dataset. Duplicate values can distort results, introduce errors, and undermine the accuracy and reliability of our data.
 ```sql
 SELECT LongName, Age, Club, Nationality, COUNT(*) AS Count
@@ -54,7 +54,7 @@ FROM [dbo].[fifa21 raw data v2]
 WHERE LongName = 'Peng Wang' AND Age = 27;
 ```
 
-### 2. Checking for NULL values
+### 2. Checking for NULL values.
 We look for null values using NULL and IS NULL function.
 The query shows that there are no null data in the most relevant columns.
 ```sql
@@ -69,3 +69,17 @@ WHERE Name IS NULL
   OR playerUrl IS NULL;
 ```
 
+### 3. Removing Unnecessary Columns.
+We can move forward by eliminating columns that are not essential for our analysis.
+Since the photoUrl link and the playerUrl doesn’t function, it's prudent to remove both to streamline our workflow.
+```sql
+ALTER TABLE [dbo].[fifa21 raw data v2]
+DROP COLUMN photoUrl;
+
+ALTER TABLE [dbo].[fifa21 raw data v2]
+DROP COLUMN playerUrl;
+```
+
+### 4. Changing the column LongName. 
+Renaming the 'LongName' column to 'Full_Name' was accomplished using the SP_RENAME stored procedure. This method was chosen for its simplicity and efficiency in modifying the database schema. Stored procedures offer pre-compiled code blocks that can be executed in the database, providing a reusable solution without the need for rewriting code.
+Additionally, employing stored procedures can enhance database security by controlling access to specific operations and improve performance by reducing network traffic for executing SQL statements. Overall, leveraging stored procedures is a powerful strategy for enhancing database functionality and performance.
