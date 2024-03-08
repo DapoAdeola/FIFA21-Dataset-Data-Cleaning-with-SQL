@@ -53,3 +53,19 @@ SELECT LongName, Age, Club, Nationality, Contract
 FROM [dbo].[fifa21 raw data v2]
 WHERE LongName = 'Peng Wang' AND Age = 27;
 ```
+
+### 2. Checking for NULL values
+We look for null values using NULL and IS NULL function.
+The query shows that there are no null data in the most relevant columns.
+```sql
+SELECT COUNT(*) AS COUNT
+FROM [dbo].[fifa21 raw data v2]
+WHERE Name IS NULL
+  OR LongName IS NULL
+  OR Age IS NULL
+  OR Nationality IS NULL
+  OR Club IS NULL
+  OR photoUrl IS NULL
+  OR playerUrl IS NULL;
+```
+
