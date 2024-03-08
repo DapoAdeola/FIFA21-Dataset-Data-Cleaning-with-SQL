@@ -39,3 +39,10 @@ FROM [dbo].[fifa21 raw data v2];
 There are 18,979 rows in our dataset.
 
 ## Data Cleaning Process
+### 1. Cleaning Data
+The initial step in the data cleaning process involves checking for duplicates in our dataset. Duplicate values can distort results, introduce errors, and undermine the accuracy and reliability of our data.
+```sql
+SELECT LongName, Age, Club, Nationality, COUNT(*) AS Count
+FROM [dbo].[fifa21 raw data v2]
+GROUP BY LongName, Age, Club, Nationality;
+```
