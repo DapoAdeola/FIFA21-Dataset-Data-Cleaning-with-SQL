@@ -21,6 +21,6 @@ Cleaning the FIFA 21 dataset presents a formidable task, requiring effective ide
 The dataset [FIFA21](https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring)
 
 ## The Dataset
-'''sql
+''' sql
 SELECT TOP 100 *
 FROM [dbo].[fifa21 raw data v2];
