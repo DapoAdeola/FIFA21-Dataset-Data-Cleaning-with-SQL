@@ -33,7 +33,7 @@ EXEC sp_help '[dbo].[fifa21 raw data v2]';
 ```
 We have 77 Columns with different data types.
 ```sql
-ELECT COUNT(*) AS Row_Count
+SELECT COUNT(*) AS Row_Count
 FROM [dbo].[fifa21 raw data v2];
 ```
 There are 18,979 rows in our dataset.
