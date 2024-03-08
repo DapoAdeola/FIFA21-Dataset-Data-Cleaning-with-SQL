@@ -22,11 +22,6 @@ The dataset [FIFA21](https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-r
 
 ## The Dataset
 
-''' sql
-SELECT TOP 100 *
-FROM [dbo].[fifa21 raw data v2];
-
-
 ```sql
 SELECT TOP 100 *
 FROM [dbo].[fifa21 raw data v2];
