@@ -17,3 +17,6 @@ The FIFA 21 dataset comprises comprehensive information on top football players 
 However, the FIFA 21 dataset is plagued by significant data quality challenges, including duplicate entries, missing data, inconsistent values, and outliers. Moreover, certain attributes are represented in various units, complicating analysis and interpretation.
 
 Cleaning the FIFA 21 dataset presents a formidable task, requiring effective identification and resolution of data quality issues. Moreover, with over 18,000 entries, manual cleaning approaches may prove impractical. Therefore, leveraging SQL to automate data cleaning processes and streamline data transformation emerges as an efficient strategy for preparing the dataset for analysis.
+
+The dataset [FIFA21](https://www.kaggle.com/datasets/yagunnersya/fifa-21-messy-raw-dataset-for-cleaning-exploring)
+
