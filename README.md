@@ -83,3 +83,6 @@ DROP COLUMN playerUrl;
 ### 4. Changing the column LongName. 
 Renaming the 'LongName' column to 'Full_Name' was accomplished using the SP_RENAME stored procedure. This method was chosen for its simplicity and efficiency in modifying the database schema. Stored procedures offer pre-compiled code blocks that can be executed in the database, providing a reusable solution without the need for rewriting code.
 Additionally, employing stored procedures can enhance database security by controlling access to specific operations and improve performance by reducing network traffic for executing SQL statements. Overall, leveraging stored procedures is a powerful strategy for enhancing database functionality and performance.
+```sql
+SP_RENAME '[dbo].[fifa21 raw data v2].LongName', 'Full_Name', 'COLUMN';
+```
