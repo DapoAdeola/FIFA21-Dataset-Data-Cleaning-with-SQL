@@ -47,7 +47,7 @@ FROM [dbo].[fifa21 raw data v2]
 GROUP BY LongName, Age, Club, Nationality
 HAVING COUNT(*) > 1;
 ```
-Checking further we realise the player went out on a loan why the multiple entries.
+Checking further using the where clause we realise the player PENG WANG went out on a loan why the multiple entries.
 ```sql
 SELECT LongName, Age, Club, Nationality, Contract
 FROM [dbo].[fifa21 raw data v2]
