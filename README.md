@@ -177,7 +177,8 @@ WHERE RIGHT([Weight], 2) IN ('kg', 'lbs');
 ```
 
 ### 8.  Cleaning the Value, Wage, and Release_clause columns
-All three columns exhibit issues, as evident from the previous descriptions. Hence, to enable aggregation, it's necessary to convert the values to float data type, eliminate the currency sign, and substitute the letters "M" and "K" with their respective equivalents denoting millions and thousands.
+All three columns exhibit issues, as evident from the previous descriptions. Hence, to enable aggregation, we remove the decimal places also it's necessary to convert the values to float data type, eliminate the currency sign, and substitute the letters "M" and "K" with their respective equivalents denoting millions and thousands. we also remove all spaces.
+Removing the decimal places.
 ```sql
 UPDATE [dbo].[fifa21 raw data v2]
 SET Value = REPLACE(Value, '.', ' ');
@@ -187,4 +188,33 @@ SET Wage = REPLACE(Wage, '.', ' ');
 
 UPDATE [dbo].[fifa21 raw data v2]
 SET Release_Clause = REPLACE(Release_Clause, '.', ' ');
+```
+Replacing the "K" and "M" with the respective zeros and Removing spaces
+```sql
+UPDATE [dbo].[fifa21 raw data v2]
+SET Value = 
+    CASE
+        WHEN Value LIKE '% %' THEN REPLACE(REPLACE(Value, 'M', '00000'), ' ', '')
+        WHEN Value LIKE '%K' THEN REPLACE(REPLACE(Value, 'K', '000'), ' ', '')
+        WHEN Value LIKE '%M' THEN REPLACE(REPLACE(Value, 'M', '000000'), ' ', '')
+        ELSE REPLACE(Value, ' ', '')
+    END;
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Wage = 
+    CASE
+        WHEN Wage LIKE '% %' THEN REPLACE(REPLACE(Wage, 'M', '00000'), ' ', '')
+        WHEN Wage LIKE '%K' THEN REPLACE(REPLACE(Wage, 'K', '000'), ' ', '')
+        WHEN Wage LIKE '%M' THEN REPLACE(REPLACE(Wage, 'M', '000000'), ' ', '')
+        ELSE REPLACE(Wage, ' ', '')
+    END;
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Release_Clause = 
+    CASE
+        WHEN Release_Clause LIKE '% %' THEN REPLACE(REPLACE(Release_Clause, 'M', '00000'), ' ', '')
+        WHEN Release_Clause LIKE '%K' THEN REPLACE(REPLACE(Release_Clause, 'K', '000'), ' ', '')
+        WHEN Release_Clause LIKE '%M' THEN REPLACE(REPLACE(Release_Clause, 'M', '000000'), ' ', '')
+        ELSE REPLACE(Release_Clause, ' ', '')
+    END;
 ```
