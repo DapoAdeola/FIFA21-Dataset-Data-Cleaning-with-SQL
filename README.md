@@ -136,5 +136,7 @@ UPDATE [dbo].[fifa21 raw data v2]
 SET Contract_End = RIGHT(Contract, 4);
 ```
 Viewing the columns
+```sql
 SELECT Contract, Contract_Start, Contract_End
 FROM [dbo].[fifa21 raw data v2];
+```
