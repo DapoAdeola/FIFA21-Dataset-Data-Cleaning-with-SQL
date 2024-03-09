@@ -269,4 +269,13 @@ ALTER TABLE [dbo].[fifa21 raw data v2]
 ALTER COLUMN IR INT;
 ```
 
+### 10. Conclusion
+
+The data cleaning process plays a vital role in any data analysis project, ensuring data accuracy, completeness, and consistency. Throughout the cleaning process of the FIFA 21 dataset, we implemented various techniques to address issues like missing values, inconsistent formats, incorrect data types, and special characters.
+
+By applying these cleaning techniques, we successfully transformed the dataset into a clean and well-structured format suitable for further analysis. This refined dataset offers reliable information for gaining insights into player attributes, team performances, and other aspects related to soccer.
+
+In summary, data cleaning is an indispensable step in data analysis, ensuring data accuracy and consistency to derive meaningful insights.
+
+
 
