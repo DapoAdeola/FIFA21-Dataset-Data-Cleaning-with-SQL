@@ -80,9 +80,61 @@ ALTER TABLE [dbo].[fifa21 raw data v2]
 DROP COLUMN playerUrl;
 ```
 
-### 4. Changing the column LongName. 
+### 4. Changing the column name LongName. 
 Renaming the 'LongName' column to 'Full_Name' was accomplished using the SP_RENAME stored procedure. This method was chosen for its simplicity and efficiency in modifying the database schema. Stored procedures offer pre-compiled code blocks that can be executed in the database, providing a reusable solution without the need for rewriting code.
 Additionally, employing stored procedures can enhance database security by controlling access to specific operations and improve performance by reducing network traffic for executing SQL statements. Overall, leveraging stored procedures is a powerful strategy for enhancing database functionality and performance.
 ```sql
 SP_RENAME '[dbo].[fifa21 raw data v2].LongName', 'Full_Name', 'COLUMN';
 ```
+Further we make naming nomenclature uniform by capitalism the first letter
+```sql
+--Replace first letter of each name with a capital letter
+UPDATE [dbo].[fifa21 raw data v2]
+SET Full_Name = UPPER(LEFT(Full_Name, 1)) + SUBSTRING(Full_Name, 2, CHARINDEX(' ', Full_Name + ' ', 2) - 2) +
+           ' ' + UPPER(LEFT(SUBSTRING(Full_Name, CHARINDEX(' ', Full_Name + ' ', 2) + 1, LEN(Full_Name)), 1)) +
+           SUBSTRING(SUBSTRING(Full_Name, CHARINDEX(' ', Full_Name + ' ', 2) + 1, LEN(Full_Name)), 2, LEN(Full_Name));
+```
+
+### 5. Cleaning leading and trailing spaces in the Club column
+Checking the distinct clubs in the column.
+```sql
+SELECT DISTINCT Club
+FROM [dbo].[fifa21 raw data v2]
+ORDER BY Club ASC;
+```
+Cleaning leading and trailing spaces
+UPDATE [dbo].[fifa21 raw data v2]
+SET Club = LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(Club, CHAR(9), ' '), CHAR(10), ' '), CHAR(13), ' ')));
+
+### 6. The Contract Column
+Checking the distinct values
+```sql
+SELECT DISTINCT(Contract)
+FROM [dbo].[fifa21 raw data v2];
+```
+The column exhibits non-native characters, as evident from the above. These characters will be replaced with hyphens. 
+```sql
+UPDATE [dbo].[fifa21 raw data v2]
+SET Contract = REPLACE(Contract, '~', '-');
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Contract = SUBSTRING(Contract, 9, 4)
+WHERE Contract LIKE '%on%';
+```
+Furthermore, executing the following query will generate two new columns named "contract start" and "contract end," utilizing the data available in the Contract column.
+```sql
+ALTER TABLE [dbo].[fifa21 raw data v2]
+ADD Contract_Start VARCHAR(20);
+
+ALTER TABLE [dbo].[fifa21 raw data v2]
+ADD Contract_End VARCHAR(20);
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Contract_Start = SUBSTRING(Contract, 1, 4);
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Contract_End = RIGHT(Contract, 4);
+```
+Viewing the columns
+SELECT Contract, Contract_Start, Contract_End
+FROM [dbo].[fifa21 raw data v2];
