@@ -178,6 +178,7 @@ WHERE RIGHT([Weight], 2) IN ('kg', 'lbs');
 
 ### 8.  Cleaning the Value, Wage, and Release_clause columns
 All three columns exhibit issues, as evident from the previous descriptions. Hence, to enable aggregation, we remove the decimal places also it's necessary to convert the values to float data type, eliminate the currency sign, and substitute the letters "M" and "K" with their respective equivalents denoting millions and thousands. we also remove all spaces.
+
 Removing the decimal places.
 ```sql
 UPDATE [dbo].[fifa21 raw data v2]
@@ -218,3 +219,54 @@ SET Release_Clause =
         ELSE REPLACE(Release_Clause, ' ', '')
     END;
 ```
+
+Ultimately, we eliminate the currency sign and convert to a more appropriate data type using the following query.
+
+Removing currency signs
+```sql
+UPDATE [dbo].[fifa21 raw data v2]
+SET Value = SUBSTRING(Value, 2, LEN(Value)-1);
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Wage = SUBSTRING(Wage, 2, LEN(Wage)-1);
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Release_Clause = SUBSTRING(Release_Clause, 2, LEN(Release_Clause)-1);
+```
+
+Converting columns to bigint data type
+ALTER TABLE [dbo].[fifa21 raw data v2]
+ALTER COLUMN Value BIGINT;
+
+ALTER TABLE [dbo].[fifa21 raw data v2]
+ALTER COLUMN Wage BIGINT;
+
+ALTER TABLE [dbo].[fifa21 raw data v2]
+ALTER COLUMN Release_Clause BIGINT;
+
+
+### 9. Cleaning the W_F, SM and IR columns.
+In this scenario, our objective is to convert the data types to integers and eliminate any special characters that might be present in columns containing them.
+```sql
+UPDATE [dbo].[fifa21 raw data v2]
+SET W_F = SUBSTRING(W_F, 1, 1);
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET SM = SUBSTRING(SM, 1, 1);
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET IR = SUBSTRING(IR, 1, 1);
+```
+Converting the column to INT data type
+```sql
+ALTER TABLE [dbo].[fifa21 raw data v2]
+ALTER COLUMN W_F INT;
+
+ALTER TABLE [dbo].[fifa21 raw data v2]
+ALTER COLUMN SM INT;
+
+ALTER TABLE [dbo].[fifa21 raw data v2]
+ALTER COLUMN IR INT;
+```
+
+
