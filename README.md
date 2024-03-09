@@ -176,3 +176,15 @@ SET [Weight] =
 WHERE RIGHT([Weight], 2) IN ('kg', 'lbs');
 ```
 
+### 8.  Cleaning the Value, Wage, and Release_clause columns
+All three columns exhibit issues, as evident from the previous descriptions. Hence, to enable aggregation, it's necessary to convert the values to float data type, eliminate the currency sign, and substitute the letters "M" and "K" with their respective equivalents denoting millions and thousands.
+```sql
+UPDATE [dbo].[fifa21 raw data v2]
+SET Value = REPLACE(Value, '.', ' ');
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Wage = REPLACE(Wage, '.', ' ');
+
+UPDATE [dbo].[fifa21 raw data v2]
+SET Release_Clause = REPLACE(Release_Clause, '.', ' ');
+```
