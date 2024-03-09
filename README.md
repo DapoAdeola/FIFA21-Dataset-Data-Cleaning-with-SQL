@@ -140,3 +140,39 @@ Viewing the columns
 SELECT Contract, Contract_Start, Contract_End
 FROM [dbo].[fifa21 raw data v2];
 ```
+
+### 7. Cleaning the Height and Weight Columns
+The 'height' column displays inconsistent values, with measurements recorded in both "cm" and "foot-inches." To standardize the data, all measurements will be converted to centimeters.
+
+This query begins by validating that the value in the "Height" column adheres to a pattern of two numbers separated by a foot mark (') and potentially followed by an optional double quote ("). It utilizes the CHARINDEX function to determine the positions of the foot mark and double quote, and the SUBSTRING function to extract the values representing feet and inches as substrings. Subsequently, the CONVERT function is employed to convert the extracted values from feet and inches to centimeters. It accomplishes this by multiplying the feet portion by 30.48 (since there are 30.48 cm in a foot), the inches portion by 2.54 (as there are 2.54 cm in an inch), and the decimal portion (if present) by 0.0254 (to convert inches to cm).
+```sql
+UPDATE [dbo].[fifa21 raw data v2]
+SET [Height] =
+    CASE 
+        WHEN CHARINDEX('''', [Height]) > 0 AND CHARINDEX('"', [Height]) > CHARINDEX('''', [Height]) THEN
+            CONVERT(FLOAT, SUBSTRING([Height], 1, CHARINDEX('''', [Height]) - 1)) * 30.48 +
+            CONVERT(FLOAT, SUBSTRING([Height], CHARINDEX('''', [Height]) + 1, CHARINDEX('"', [Height]) - CHARINDEX('''', [Height]) - 1)) * 2.54 
+        WHEN CHARINDEX('''', [Height]) > 0 THEN
+            CONVERT(FLOAT, SUBSTRING([Height], 1, CHARINDEX('''', [Height]) - 1)) * 30.48
+        WHEN CHARINDEX('.', [Height]) > 0 THEN
+            CONVERT(FLOAT, [Height]) * 2.54
+        ELSE
+            NULL -- Handle other cases gracefully
+    END
+WHERE 
+    [Height] LIKE '[0-9]''[0-9]%"' AND CHARINDEX('"', [Height]) > 0;
+```
+
+In the 'weight' column, some measurements are indicated in kilograms (kg), while others are in pounds (lbs). To maintain consistency within our dataset, all values will be converted to kilograms.
+
+This query initially verifies the weight unit, determining whether it is indicated in kilograms or pounds by examining the last two characters in the "Weight" column, specifically "kg" or "lbs." It then converts the weight value to a float and adjusts it if necessary. If the weight unit is in pounds, the query converts the value to kilograms by dividing it by 2.20462. Conversely, if the weight unit is already in kilograms, no conversion is needed.
+```sql
+UPDATE [dbo].[fifa21 raw data v2]
+SET [Weight] = 
+ CASE 
+  WHEN RIGHT([Weight], 2) = 'lbs' THEN CAST(SUBSTRING([Weight], 1, LEN([Weight]) - 3) AS FLOAT) / 2.20462 
+  ELSE CAST(SUBSTRING([Weight], 1, LEN([Weight]) - 2) AS FLOAT) 
+ END 
+WHERE RIGHT([Weight], 2) IN ('kg', 'lbs');
+```
+
